@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form id="frm">
+		<p:growl id="messages" showDetail="true" />
+
+		<p:toolbar>
+			<f:facet name="left">
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					process="@this :frm:panGriHabilidad"
+					actionListener="#{gamerController.saveGamer()}"
+					update=":frm:messages :frm:datTabHabilidad :frm:panGriHabilidad" />
+
+			</f:facet>
+		</p:toolbar>
+
+		<p:panelGrid id="panGriHabilidad" columns="2">
+			<p:outputLabel value="Nombre :" for="txtName" />
+			<p:inputText id="txtName" required="true" maxlength="45"
+				value="#{gamerController.gamer.name}" />
+
+			<p:outputLabel value="Event:" for="cmbCate" />
+			<p:selectOneMenu id="cmbCate" required="true" effect="drop"
+				value="#{gamerController.event}"
+				converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="Seleccione una opcion"
+					noSelectionOption="true" itemValue="" />
+				<f:selectItems value="#{gamerController.event}" var="Cate"
+					itemLabel="#{Cate.name}" itemValue="#{Cate}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Phone :" for="txtPaginas" />
+			<p:inputText id="txtPaginas" required="true"
+				value="#{gamerController.gamer.phone}" />
+
+		</p:panelGrid>
+
+
+		<p:dataTable id="datTabHabilidad"
+			emptyMessage="No existen gamers registrados"
+			value="#{gamerController.gamers}" var="gamer"
+			paginator="true" rows="10" selectionMode="single"
+			rowKey="#{gamer.id}">
+
+			<f:facet name="header">
+				<p:outputLabel value="Lista de Proyectos" />
+			</f:facet>
+
+			<p:ajax event="rowSelect"
+				listener="#{gamerController.selectGamer}" />
+
+			<p:column headerText="Id">
+				<p:outputLabel value="#{gamer.id}" />
+			</p:column>
+			<p:column headerText="Gamer">
+				<p:outputLabel value="#{game.name}" />
+			</p:column>
+			<p:column headerText="Event">
+				<p:outputLabel value="#{gamer.event}" />
+			</p:column>
+			<p:column headerText="Numero de paginas">
+				<p:outputLabel value="#{gamer.phone}" />
+			</p:column>
+			
+			
+		</p:dataTable>
+
+
+	</h:form>
+
+
+</body>
+</html>

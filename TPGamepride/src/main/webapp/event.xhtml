@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form id="frm">
+		<p:growl id="messages" showDetail="true" />
+
+		<p:toolbar>
+			<f:facet name="left">
+				<p:commandButton value="Guardar" icon="ui-icon-disk"
+					process="@this :frm:panGriHabilidad"
+					actionListener="#{eventController.saveEvent()}"
+					update=":frm:messages :frm:datTabHabilidad :frm:panGriHabilidad" />
+
+			</f:facet>
+		</p:toolbar>
+
+		<p:panelGrid id="panGriHabilidad" columns="2">
+			<p:outputLabel value="Nombre :" for="txtName" />
+			<p:inputText id="txtName" required="true" maxlength="45"
+				value="#{eventController.event.name}" />
+
+
+		</p:panelGrid>
+
+
+		<p:dataTable id="datTabHabilidad"
+			emptyMessage="No existen eventos registradas"
+			value="#{eventController.event}" var="event"
+			paginator="true" rows="10" selectionMode="single"
+			rowKey="#{event.id}">
+
+			<f:facet name="header">
+				<p:outputLabel value="Lista de Events" />
+			</f:facet>
+
+			<p:ajax event="rowSelect"
+				listener="#{eventController.selectEvent}" />
+
+			<p:column headerText="Id">
+				<p:outputLabel value="#{editorial.id}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<p:outputLabel value="#{editorial.name}" />
+			</p:column>			
+		</p:dataTable>
+
+
+	</h:form>
+
+
+</body>
+</html>
